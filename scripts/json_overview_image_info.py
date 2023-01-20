@@ -33,7 +33,7 @@ for json_file in work_dir.glob("*.json"):
             )
 
 if output:
-    default_packages, output["arch_packages"] = run(
+    default_packages, output["arch_packages"], output["kernel_version"], output["initramfs"] = run(
         [
             "make",
             "--no-print-directory",
@@ -41,6 +41,8 @@ if output:
             "target/linux/{}".format(output['target'].split('/')[0]),
             "val.DEFAULT_PACKAGES",
             "val.ARCH_PACKAGES",
+            "val.LINUX_VERSION",
+            "val.KERNEL_INITRAMFS",
         ],
         stdout=PIPE,
         stderr=PIPE,
