@@ -1237,3 +1237,61 @@ define KernelPackage/macsec/description
 endef
 
 $(eval $(call KernelPackage,macsec))
+
+
+define KernelPackage/netlink-diag
+  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+  TITLE:=Netlink diag support for ss utility
+  KCONFIG:=CONFIG_NETLINK_DIAG
+  FILES:=$(LINUX_DIR)/net/netlink/netlink_diag.ko
+  AUTOLOAD:=$(call AutoLoad,31,netlink-diag)
+endef
+
+define KernelPackage/netlink-diag/description
+ Netlink diag is a module made for use with iproute2's ss utility
+endef
+
+$(eval $(call KernelPackage,netlink-diag))
+
+
+define KernelPackage/wireguard
+  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+  TITLE:=WireGuard secure network tunnel
+  DEPENDS:= \
+	  +kmod-crypto-lib-chacha20poly1305 \
+	  +kmod-crypto-lib-curve25519 \
+	  +kmod-udptunnel4 \
+	  +IPV6:kmod-udptunnel6
+  KCONFIG:= \
+	  CONFIG_WIREGUARD \
+	  CONFIG_WIREGUARD_DEBUG=n
+  FILES:=$(LINUX_DIR)/drivers/net/wireguard/wireguard.ko
+  AUTOLOAD:=$(call AutoProbe,wireguard)
+endef
+
+define KernelPackage/wireguard/description
+  WireGuard is a novel VPN that runs inside the Linux Kernel and utilizes
+  state-of-the-art cryptography. It aims to be faster, simpler, leaner, and
+  more useful than IPSec, while avoiding the massive headache. It intends to
+  be considerably more performant than OpenVPN.  WireGuard is designed as a
+  general purpose VPN for running on embedded interfaces and super computers
+  alike, fit for many different circumstances. It uses UDP.
+endef
+
+$(eval $(call KernelPackage,wireguard))
+
+
+define KernelPackage/netconsole
+  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+  TITLE:=Network console logging support
+  KCONFIG:=CONFIG_NETCONSOLE \
+	  CONFIG_NETCONSOLE_DYNAMIC=n
+  FILES:=$(LINUX_DIR)/drivers/net/netconsole.ko
+  AUTOLOAD:=$(call AutoProbe,netconsole)
+endef
+
+define KernelPackage/netconsole/description
+  Network console logging support.
+endef
+
+$(eval $(call KernelPackage,netconsole))
