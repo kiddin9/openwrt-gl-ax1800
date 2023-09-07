@@ -17,12 +17,21 @@ DEFAULT_PACKAGES:=base-files libc libgcc busybox dropbear mtd uci opkg netifd fs
 # For nas targets
 DEFAULT_PACKAGES.nas:=block-mount fdisk lsblk mdadm
 # For router targets
-DEFAULT_PACKAGES.router:=dnsmasq-full iptables ip6tables ppp ppp-mod-pppoe firewall odhcpd-ipv6only odhcp6c luci luci-lib-ipkg
+DEFAULT_PACKAGES.router:=dnsmasq-full iptables ip6tables ppp ppp-mod-pppoe firewall odhcpd-ipv6only odhcp6c luci luci-lib-ipkg kmod-ipt-nat kmod-ipt-nat6 kmod-ipt-offload
 DEFAULT_PACKAGES.bootloader:=
 
 ifneq ($(DUMP),)
   all: dumpinfo
 endif
+
+ifeq ($(ARCH),arm)
+  DEFAULT_PACKAGES+=luci-app-cpufreq
+endif
+
+ifeq ($(ARCH),aarch64)
+  DEFAULT_PACKAGES+=luci-app-cpufreq
+endif
+
 
 target_conf=$(subst .,_,$(subst -,_,$(subst /,_,$(1))))
 ifeq ($(DUMP),)
