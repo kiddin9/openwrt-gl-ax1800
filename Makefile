@@ -118,6 +118,8 @@ world: prepare $(target/stamp-compile) $(package/stamp-compile) $(package/stamp-
 	$(_SINGLE)$(SUBMAKE) -r package/index
 	$(_SINGLE)$(SUBMAKE) -r json_overview_image_info
 	$(_SINGLE)$(SUBMAKE) -r checksum
+	cp $(BIN_DIR)/packages/Packages.manifest $(BIN_DIR)/
+	mv $(BIN_DIR)/packages $(BIN_DIR)/$(LINUX_VERSION) 2>/dev/null
 
 .PHONY: clean dirclean prereq prepare world package/symlinks package/symlinks-install package/symlinks-clean
 
